@@ -23,10 +23,6 @@ namespace QuickSwap
     /// <summary>The mod entry point.</summary>
     public class ModEntry : Mod
     {
-
-        /*********
-        ** Public methods
-        *********/
         /// <summary>The mod entry point, called after the mod is first loaded.</summary>
         /// <param name="helper">Provides simplified APIs for writing mods.</param>
         public override void Entry(IModHelper helper)
@@ -43,6 +39,7 @@ namespace QuickSwap
           * Last known tool held
           */
         private Item? currTool;
+
         /**
           * Prev tool held
           */
@@ -52,17 +49,14 @@ namespace QuickSwap
 
         private void OnUpdateTicked(object? sender, UpdateTickedEventArgs e)
         {
-            // ignore if player hasn't loaded a save yet
-            if (!Context.IsWorldReady)
-                return;
+            if (!Context.IsWorldReady) return;
 
             CheckPlayerActiveTool();
         }
 
         private void OnButtonPressed(object? sender, ButtonPressedEventArgs e)
         {
-            if (!Context.IsWorldReady)
-                return;
+            if (!Context.IsWorldReady) return;
 
             if (e.Button == this.config.ActivationKey)
             {
@@ -79,7 +73,7 @@ namespace QuickSwap
             if (tool == currTool) return;
             prevTool = currTool;
             currTool = tool;
-            this.Monitor.Log($"asdf tools {currTool?.Name} prev {prevTool?.Name}");
+            // this.Monitor.Log($"QuickSwap tools {currTool?.Name} prev {prevTool?.Name}");
         }
 
         private void QuickSwap()
