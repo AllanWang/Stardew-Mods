@@ -50,6 +50,7 @@ namespace QuickSwap
         private void OnUpdateTicked(object? sender, UpdateTickedEventArgs e)
         {
             if (!Context.IsWorldReady) return;
+            if (!Context.IsPlayerFree) return;
 
             CheckPlayerActiveTool();
         }
@@ -57,6 +58,9 @@ namespace QuickSwap
         private void OnButtonPressed(object? sender, ButtonPressedEventArgs e)
         {
             if (!Context.IsWorldReady) return;
+            if (!Context.IsPlayerFree) return;
+            // Swapping while animating freezes game until another swap occurs
+            if (Game1.player.FarmerSprite.isOnToolAnimation()) return;
 
             if (e.Button == this.config.ActivationKey)
             {
