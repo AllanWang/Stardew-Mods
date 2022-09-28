@@ -2,6 +2,8 @@ using System;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
+using StardewValley.Tools;
+
 
 namespace QuickSwap
 {
@@ -59,13 +61,19 @@ namespace QuickSwap
         {
             if (!Context.IsWorldReady) return;
             if (!Context.IsPlayerFree) return;
+            // Not correct key; ignore
+            if (e.Button != this.config.ActivationKey) return;
+
             // Swapping while animating freezes game until another swap occurs
             if (Game1.player.FarmerSprite.isOnToolAnimation()) return;
-
-            if (e.Button == this.config.ActivationKey)
+            var fishingRod = Game1.player.CurrentTool as FishingRod;
+            if (fishingRod?.inUse() == true)
             {
-                QuickSwap();
+                // Swapping mid use makes the fishing rod sounds persistent
+                return;
             }
+
+            QuickSwap();
         }
 
 
